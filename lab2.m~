@@ -22,16 +22,17 @@ hist(x2, 100);
 
 f=fs/N*n;
 
-
+%{
 plot(f, abs(fft(x1)));
 %axis([7950 8050 0 1000]); 
 figure;
 plot(f, abs(fft(x2)));
 %axis([7950 8050 0 1000]); 
 
-
-
 %logaritmisk skala (dB)
 plot(f, db(abs(fft(x1))));
 figure;
 plot(f, db(abs(fft(x2))));
+%}
+
+w=[zeros(1,floor((N-M)/2)),rectwin(M)',zeros(1,ceil((N-M)/2))];

@@ -34,4 +34,7 @@ plot(f, db(abs(fft(x1))));
 figure;
 plot(f, db(abs(fft(x2))));
 %}
-
+M=100;
+w=[zeros(1,floor((N-M)/2)),rectwin(M)',zeros(1,ceil((N-M)/2))];
+maxY = max(db(abs(fft(w))));
+plot(f, db(abs(fft(w))));
