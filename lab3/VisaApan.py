@@ -1,12 +1,12 @@
 exec(open('preambel.py').read())
 Im = np.double(misc.imread('baboon.TIF'))
 
-plt.subplot(221)
+plt.subplot(231)
 plt.imshow(Im,'gray',clim=(0,255))
-plt.title('lågkontrast-apa')
+plt.title('apa')
 plt.colorbar()
 
-plt.subplot(222)
+plt.subplot(232)
 plt.imshow(Im,'gray',clim=(50,200)) #fråga2
 plt.title('högkontrast-apa')
 plt.colorbar()
@@ -43,14 +43,32 @@ gray_vals = graycmap(np.arange(256))
 gray_vals[200:] = [1, 0, 0, 1]
 plt.register_cmap('ngray', graycmap.from_list('ngray', gray_vals))
 
-plt.subplot(223)
+plt.subplot(234)
 plt.imshow(Im,'ngray',clim=(0,255))
-plt.title('lågkontrast-apa med ngray')
+plt.title('apa med ngray - red')
 plt.colorbar()
-
 #SVAR
 #Alla pixlar på bilden som har ett gråskalevärde som är högre än 200 blir rödfärgade [1, 0, 0, 1].
 
+
+##### fraga 5
+
+gray_vals[200:] = [0, 0, 1, 1] #blue
+gray_vals[:50] = [0, 1, 0, 1] #green
+plt.register_cmap('ngray', graycmap.from_list('ngray', gray_vals))
+
+plt.subplot(235)
+plt.imshow(Im,'ngray',clim=(0,255))
+plt.title('apa med ngray - blue/green')
+plt.colorbar()
+
+plt.subplot(236)
+plt.imshow(Im,'jet',clim=(0,255))
+plt.title('apa med jet')
+plt.colorbar()
+
+#SVAR
+# Apans nos blir ljusblå.
 
 
 
