@@ -18,8 +18,15 @@ for i = 1:8
     y=downsample(x1,i);
     f1=downsample(f,i);
     subplot(2,4,i);
-    plot(f1, db(abs(fft(y))));
+    plot(f1/i, db(abs(fft(y))));
     title("n = " + i);
 end
 
-
+for i = 1:8
+    y=downsample(x1,i);
+    f1=downsample(f,i);
+    subplot(2,4,i);
+    
+    plot(f1(1:lengt, db(abs(fft(y))));
+    title("n = " + i);
+end

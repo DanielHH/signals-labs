@@ -45,7 +45,7 @@ x=sin(2*pi*3999*(1+5e-7*cos(2*pi*100*t)).*t)+sin(2*pi*4099*t)+1e-3*sin(2*pi*4400
 plot(f, db(abs(fft(x))));
 xlim([3000,5000]);
 
-
+figure;
 M1=500;
 
 subplot(3,6,1);
@@ -135,7 +135,7 @@ M1=500;
 fq1=0:fs/M1:fs*(1-1/M1);
 
 lzer1 = zeros(1,floor((N-M1)/2));
-xfilt1=x(length(lzer):length(lzer)+M1-1);
+xfilt1=x(length(lzer1):length(lzer1)+M1-1);
 
 subplot(3,6,10);
 w10 = rectwin(M1)';
@@ -158,7 +158,7 @@ M2=1000;
 fq2=0:fs/M2:fs*(1-1/M2);
 
 lzer2 = zeros(1,floor((N-M2)/2));
-xfilt2=x(length(lzer):length(lzer)+M2-1);
+xfilt2=x(length(lzer2):length(lzer2)+M2-1);
 
 subplot(3,6,13);
 w13 = rectwin(M2)';
@@ -181,7 +181,7 @@ M3=2000;
 fq3=0:fs/M3:fs*(1-1/M3);
 
 lzer3 = zeros(1,floor((N-M3)/2));
-xfilt3=x(length(lzer):length(lzer)+M3-1);
+xfilt3=x(length(lzer3):length(lzer3)+M3-1);
 
 subplot(3,6,16);
 w16 = rectwin(M3)';
