@@ -251,3 +251,5 @@ x=sin(2*pi*3999*(1+5e-7*cos(2*pi*100*t)).*t)+sin(2*pi*4099*t)+1e-3*sin(2*pi*4400
 plot(f, db(abs(fft(x.*w9))));
 xlim([3000,5000]);
 %}
+
+
