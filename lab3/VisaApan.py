@@ -7,7 +7,7 @@ plt.title('lågkontrast-apa')
 plt.colorbar()
 
 plt.subplot(122)
-plt.imshow(Im,'gray',clim=(50,200)) # fråga 2
+plt.imshow(Im,'gray',clim=(50,200)) # fråga2
 plt.title('högkontrast-apa')
 plt.colorbar()
 
@@ -18,8 +18,7 @@ fig = plt.gcf()
 fig.canvas.mpl_connect('button_press_event', on_press)
 plt.show()
 
-
-###### fraga 1
+##### fraga 1
 #print(np.min(Im)) # 2.0
 #print(np.max(Im)) # 207.0
 
@@ -36,6 +35,15 @@ plt.show()
  y-koord: 15.1237
 """
 
+##### fraga 3
+graycmap = plt.get_cmap('gray', 256)
+gray_vals = graycmap(np.arange(256))
+print(gray_vals)
+#Skillnaden är att istället för att anta 256 olika värden mellan 0 och 255 (steglängd: 1),
+# så antar den här tabellen 256 olika värden mellan 0 och 1 (steglängd: 1/255).
+
+
+##### fraga 4
 
 
 
