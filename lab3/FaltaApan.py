@@ -14,7 +14,6 @@ plt.colorbar()
 
 
 #### Fråga 7
-
 b = np.array([0.5,0.5])
 print(b)
 print('\n')
@@ -26,7 +25,6 @@ print(aver) # Kärnan
 
 # Kärnan ser korrekt ut
 
-
 Imaver = signal.convolve2d(Im,aver,'same')
 plt.subplot(122)
 plt.imshow(Imaver,'gray',clim=(0,255))
@@ -36,3 +34,9 @@ plt.show()
 
 #SVAR
 #Det blir suddigare
+
+### Fråga 8
+
+#Same gör att Imaver har samma storlek som Im.
+
+#help(signal.convolve2d)
