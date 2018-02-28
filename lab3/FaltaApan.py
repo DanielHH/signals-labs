@@ -16,6 +16,7 @@ plt.colorbar()
 
 #### Fråga 7
 b = np.array([0.5,0.5])
+d = np.array([1, -1])
 print(b)
 print('\n')
 b2 = np.convolve(b,b).reshape(1,-1)
@@ -55,3 +56,15 @@ plt.show()
 
 #SVAR
 #Bilder blir mjukare, men färre och färre detaljer syns
+
+### Fraga 10
+cd = np.convolve(b,d)
+
+### Fraga 11
+"""
+[-1, -2, -1,
+0, 0, 0
+1, 2, 1]
+"""
+
+#
