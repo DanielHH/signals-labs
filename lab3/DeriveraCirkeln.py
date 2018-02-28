@@ -31,5 +31,10 @@ plt.colorbar()
 plt.show()
 
 ### Fraga 12
-#SVAR
-# Flr sobelx så blir de faltade värden på gråskalan
+# SVAR
+# I sobelx: När man faltar i x-led sker faltningen från vänster till höger
+# vilket gör att den vänstra sidan av cirkeln blir vit (eftersom cirkeln är vit),
+# och höger sida blir svart (eftersom området utanför cirkeln är svart)
+# I sobely: Faltningen sker uppifrån och neråt,
+# vilket gör att ovansidan av cirkeln blir vit och undersidan svart.
+# Det är grått överallt där det inte är några "kanter".
