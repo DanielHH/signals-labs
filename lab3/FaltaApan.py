@@ -11,7 +11,8 @@ plt.colorbar()
 #### Fråga 6
 
 #SVAR
-#
+# Resultatet av filtret ska bli 1.
+# Filtret får ett högre värde (man släpper igenom högre frekvenser), vilket resulterar i en ljusare bild.
 
 
 #### Fråga 7
