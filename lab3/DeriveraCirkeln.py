@@ -28,8 +28,6 @@ plt.imshow(Imsobely, 'gray', clim=(-128,127))
 plt.title('sobely image')
 plt.colorbar()
 
-plt.show()
-
 ### Fraga 12
 # SVAR
 # I sobelx: När man faltar i x-led sker faltningen från vänster till höger
@@ -38,3 +36,10 @@ plt.show()
 # I sobely: Faltningen sker uppifrån och neråt,
 # vilket gör att ovansidan av cirkeln blir vit och undersidan svart.
 # Det är grått överallt där det inte är några "kanter".
+
+### Fraga 13
+# |(df(x, y)/dx, df(x, y)/dy)|
+
+plt.subplot(222)
+
+plt.show()
