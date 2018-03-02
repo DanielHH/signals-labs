@@ -114,14 +114,22 @@ plt.show()
 def imgAssessmentDct(img):
     # good: psnr=39dB
     Y = cv2.dct(img)
+    height = 512
+    width = 768
     Yq = np.zeros((512,768))
-    Yq[0:128,0:196] = np.round(Y[0:128,0:196])
+    goodfactor = 9/16
+    heightEnd = int(np.floor(height*goodfactor))
+    widthEnd = int(np.floor(width*goodfactor))
+    Yq[0:heightEnd,0:widthEnd] = np.round(Y[0:heightEnd,0:widthEnd])
     goodImg = cv2.idct(Yq)
     print(psnr(meanSquareError(goodImg, img)))
     # half-good: psnr=35dB
     Y = cv2.dct(img)
     Yq = np.zeros((512,768))
-    Yq[0:128,0:196] = np.round(Y[0:128,0:196])
+    hgfactor = 2/5 #halfgoodfactor
+    heightEnd = int(np.floor(height*hgfactor))
+    widthEnd = int(np.floor(width*hgfactor))
+    Yq[0:heightEnd,0:widthEnd] = np.round(Y[0:heightEnd,0:widthEnd])
     halfgoodImg = cv2.idct(Yq)
     print(psnr(meanSquareError(halfgoodImg, img)))
     plt.figure(1)
