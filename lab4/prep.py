@@ -22,8 +22,18 @@ y, cb, cr = jl.rgb2ycbcr(im1)
 plt.figure(2), plt.imshow(y, 'gray', clim=(0, 255))
 plt.figure(3), plt.imshow(cb, 'gray')
 plt.figure(4), plt.imshow(cr, 'gray')
-plt.show()
+#plt.show()
 
 ### FRAGA 2
 #SVAR
 # I luminens, figur 2 (y-kanal)
+
+# Mean square error
+def meanSquareError(imga, imgb):
+    return np.square(np.subtract(imga, imgb)).mean()
+
+# Peak signal to noise ratio
+def psnr(mse):
+    return 10*np.log(255**2/mse)
+
+print(psnr(meanSquareError(im1g, im1r)))
