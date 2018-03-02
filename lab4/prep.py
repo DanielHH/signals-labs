@@ -96,7 +96,8 @@ plt.figure(6), plt.imshow(np.abs(y-y4), 'gray')
 plt.show()
 """
 
-### FRAGA7
+### FRAGA 7
+#SVAR
 # Vi behöver 17 bitar för att kunna representera informationspannet
 # spann mellan -9437 och 58929, då behövs 17 bitar för att kunna representera det binärt.
 """
@@ -115,7 +116,7 @@ plt.subplot(224), plt.imshow(yq,'gray',clim=(0,255))
 plt.show()
 """
 
-### FRAGA8
+### FRAGA 8
 
 def imgAssessmentDct(img):
     # good: psnr=39dB
@@ -146,3 +147,35 @@ def imgAssessmentDct(img):
     plt.subplot(133), plt.imshow(halfgoodImg, 'gray')
     plt.show()
 #imgAssessmentDct(y)
+
+### FRAGA 9
+#SVAR
+# Likheten är att de samlar de viktigaste värdena
+
+### FRAGA 10
+#SVAR
+# Info samlades uppe i hörnet och då kunde man bara ta ett avgränsat
+# område, storlek beroende på hur hög kvalite på bilden man vill ha.
+
+### FRAGA 11
+# SVAR
+#
+
+Y = cv2.dct(y)
+Yq = np.zeros((512,768))
+a = 4
+b = 1.8
+Yq[0:int(512/a ),0:int(768/a )] = np.round(Y[0:int(512/a ),0:int(768/a )])
+yq = cv2.idct(Yq)
+
+Yb = jl.bdct(y, (8, 8))
+Ybq = np.zeros(Yb.shape)
+Ybq[(0, 1, 8, 9), :]  = np.round(Yb[(0, 1, 8, 9), :])
+yq2 = jl.ibdct(Ybq, (8, 8), (512, 768))
+
+plt.figure(2)
+plt.subplot(121)
+plt.imshow(yq, 'gray', clim=(0, 255)),plt.title('yq')
+plt.subplot(122)
+plt.imshow(yq2, 'gray', clim=(0, 255)),plt.title('yq2')
+plt.show()
