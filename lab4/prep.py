@@ -326,6 +326,8 @@ def frag15(img):
             set_hg = True
             hg_Q1 = q
             yhg = yr
+        if set_good == True and set_hg == True:
+            break
 
     plt.figure(1)
     plt.subplot(131), plt.imshow(img, 'gray', clim=(0, 255))
@@ -345,6 +347,76 @@ def frag15(img):
 #frag15(y4)
 
 
+### FRAGA16
+# SVAR
+def frag16():
+    Qm = jl.jpgqmtx()
+    print(Qm.reshape(8, 8))
+#frag16()
 
+
+###FRAGA17
+# SVAR
+# Low frequency components are quantized to longer steps since DCT
+# gathers the high frequency components in the top left corner.
+# And as the JPEG standard is based on DCT it values the high frequency components higher
+# than the low frequency components which can be seen in the matrix from question 16
+# (short quantization steps are in the top left corner).
+
+
+###FRAGA18
+def frag18():
+    Qm = jl.jpgqmtx()
+    JPEGMEAN = np.mean(Qm)
+    print(JPEGMEAN)
+#frag18()
+
+#SVAR
+# 57.625
+
+def frag19(img):
+
+    Yb = jl.bdct(img, (8, 8))
+    Q2 = 100
+    good_Q2 = None
+    hg_Q2 = None
+    yg = None
+    yhg = None
+    set_good = False
+    set_hg = False
+    for q in range(1, Q2):
+        q = float(q)/10
+        Ybq = jl.bquant(Yb, jl.jpgqmtx() * q)
+        Ybr = jl.brec(Ybq, jl.jpgqmtx() * q)
+        yr = jl.ibdct(Ybr, (8, 8), (512, 768))
+        psnr_num = psnr(meanSquareError(yr, img))
+        print(psnr_num)
+        if psnr_num < 40 and psnr_num > 38 and not set_good:
+            set_good = True
+            good_Q2 = q
+            yg = yr
+        elif psnr_num < 35 and psnr_num > 33 and not set_hg:
+            set_hg = True
+            hg_Q2 = q
+            yhg = yr
+        if set_good == True and set_hg == True or psnr_num < 33:
+            break
+
+    plt.figure(1)
+    plt.subplot(131), plt.imshow(img, 'gray', clim=(0, 255))
+    plt.subplot(132), plt.imshow(yg, 'gray', clim=(0, 255))
+    plt.subplot(133), plt.imshow(yhg, 'gray', clim=(0, 255))
+
+    print("psnr for good: " + str(psnr(meanSquareError(yg, img))))
+    print("JPEGMEAN*Q2 for good: " + str(np.mean(jl.jpgqmtx())*good_Q2))
+    print("psnr for halfgood: " + str(psnr(meanSquareError(yhg, img))))
+    print("JPEGMEAN*Q2 for halfgood: " + str(np.mean(jl.jpgqmtx())*hg_Q2))
+
+    plt.show()
+
+#frag19(y)
+#frag19(y2)
+#frag19(y3)
+#frag19(y4)
 
 
