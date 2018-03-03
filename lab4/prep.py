@@ -4,6 +4,11 @@ execfile('preambel.py')
 
 im1 = misc.imread('image1.png')
 im2 = misc.imread('image2.png')
+im3 = misc.imread('image3.png')
+im4 = misc.imread('image4.png')
+im5 = misc.imread('image5.png')
+im6 = misc.imread('image6.png')
+
 im1r = im1[:,:,0]
 im1g = im1[:,:,1]
 im1b = im1[:,:,2]
@@ -21,6 +26,11 @@ im1b = im1[:,:,2]
 # SVart: 0 rgb
 
 y, cb, cr = jl.rgb2ycbcr(im1)
+y2, cb2, cr2 = jl.rgb2ycbcr(im2)
+y3, cb3, cr3 = jl.rgb2ycbcr(im3)
+y4, cb4, cr4 = jl.rgb2ycbcr(im4)
+y5, cb5, cr5 = jl.rgb2ycbcr(im5)
+y6, cb6, cr6 = jl.rgb2ycbcr(im6)
 
 #lt.figure(2), plt.imshow(y, 'gray', clim=(0, 255))
 #plt.figure(3), plt.imshow(cb, 'gray')
@@ -191,7 +201,7 @@ def frag11():
 #frag11()
 
 ### FRAGA12
-def frag12()
+def frag12():
     Yb = jl.bdct(y, (8, 8))
     Ybq = np.zeros(Yb.shape)
     Ybq[(0, 1, 8, 9), :] = np.round(Yb[(0, 1, 8, 9), :])
@@ -232,48 +242,68 @@ def frag13():
     plt.subplot(131), plt.imshow(y, 'gray')
     plt.subplot(132), plt.imshow(yq, 'gray', clim=(0, 255))
     plt.subplot(133), plt.imshow(yq2, 'gray', clim=(0, 255))
-    plt.show()
-
 
 # SVAR
     print("bpp for yq: " + str(bppyq) + ", psnr yq: " + str(psnr(meanSquareError(yq, y))))
     print("bpp for yq2: " + str(bppyq2) + ", psnr yq2: " + str(psnr(meanSquareError(yq2, y))))
-
+    plt.show()
 #frag13()
 
 ### FRAGA14
-def frag14():
-    Y = cv2.dct(y)
+def frag14(img):
 
-    Yq = np.zeros((512, 768))
-    Yq[0:128, 0:196] = np.round(Y[0:128, 0:196])
-    yq = cv2.idct(Yq)
-
-    bits = np.ceil(np.log2(np.max(Yq)-np.min(Yq)))
-    image_part = 1./(512/128*768/196)
-    bppyq = bits*image_part
-
-    Yb = jl.bdct(y, (8, 8))
-    Ybq = np.zeros(Yb.shape)
-    Ybq[(0, 1, 8, 9), :] = np.round(Yb[(0, 1, 8, 9), :])
-    yq2 = jl.ibdct(Ybq, (8, 8), (512, 768))
-
-    bits = np.ceil(np.log2(np.max(Ybq)-np.min(Ybq)))
-    image_part = 1./16
-    bppyq2 = bits*image_part
-
+    Yb = jl.bdct(img, (8, 8))
+    blocks = ()
+    quality = 8
+    block_size = 8
+    set_good = False
+    set_hg = False
+    bppyg = None
+    bppyhg = None
+    yg = np.zeros(Yb.shape)
+    yhg = np.zeros(Yb.shape)
+    for q in range(quality, 0, -1):
+        for col in range(0, q):
+            for row in range(0, q):
+                blocks = blocks + (row+col*block_size,)
+        print(blocks)
+        Y = np.zeros(Yb.shape)
+        Y[blocks, :] = np.round(Yb[blocks, :])
+        pos_y = jl.ibdct(Y, (8, 8), (512, 768))
+        psnr_num = psnr(meanSquareError(pos_y, img))
+        print(psnr_num)
+        if psnr_num < 41 and psnr_num >= 37 and not set_good:
+            print("first if")
+            yg = pos_y
+            set_good = True
+            bits = np.ceil(np.log2(np.max(Y) - np.min(Y)))
+            image_part = float(quality**2) / 64
+            bppyg = bits * image_part
+        elif psnr_num < 37 and psnr_num >= 33 and not set_hg:
+            print("second if")
+            yhg = pos_y
+            set_hg = True
+            bits = np.ceil(np.log2(np.max(Y) - np.min(Y)))
+            image_part = float(quality**2) / 64
+            bppyhg = bits * image_part
+        blocks = ()
     plt.figure(1)
-    plt.subplot(131), plt.imshow(y, 'gray')
-    plt.subplot(132), plt.imshow(yq, 'gray', clim=(0, 255))
-    plt.subplot(133), plt.imshow(yq2, 'gray', clim=(0, 255))
-    plt.show()
+    plt.subplot(131), plt.imshow(img, 'gray')
+    plt.subplot(132), plt.imshow(yg, 'gray')
+    plt.subplot(133), plt.imshow(yhg, 'gray')
 
 
 # SVAR
-    print("bpp for yq: " + str(bppyq) + ", psnr yq: " + str(psnr(meanSquareError(yq, y))))
-    print("bpp for yq2: " + str(bppyq2) + ", psnr yq2: " + str(psnr(meanSquareError(yq2, y))))
+    print("bpp for good: " + str(bppyg))
+    print("psnr for good: " + str(psnr(meanSquareError(yg, img))))
+    print("bpp for half good: " + str(bppyhg))
+    print("psnr half good: " + str(psnr(meanSquareError(yhg, img))))
+    plt.show()
 
-#frag14()
+#frag14(y)
+#frag14(y2)
+#frag14(y4)
+#frag14(y6)
 
 
 
