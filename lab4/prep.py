@@ -266,21 +266,18 @@ def frag14(img):
         for col in range(0, q):
             for row in range(0, q):
                 blocks = blocks + (row+col*block_size,)
-        print(blocks)
         Y = np.zeros(Yb.shape)
         Y[blocks, :] = np.round(Yb[blocks, :])
         pos_y = jl.ibdct(Y, (8, 8), (512, 768))
         psnr_num = psnr(meanSquareError(pos_y, img))
-        print(psnr_num)
+        #print(psnr_num)
         if psnr_num < 41 and psnr_num >= 37 and not set_good:
-            print("first if")
             yg = pos_y
             set_good = True
             bits = np.ceil(np.log2(np.max(Y) - np.min(Y)))
             image_part = float(quality**2) / 64
             bppyg = bits * image_part
         elif psnr_num < 37 and psnr_num >= 33 and not set_hg:
-            print("second if")
             yhg = pos_y
             set_hg = True
             bits = np.ceil(np.log2(np.max(Y) - np.min(Y)))
@@ -306,6 +303,46 @@ def frag14(img):
 #frag14(y6)
 
 
+def frag15(img):
+    Yb = jl.bdct(img, (8, 8))
+    Q1 = 100
+    good_Q1 = None
+    hg_Q1 = None
+    yg = None
+    yhg = None
+    set_good = False
+    set_hg = False
+    for q in range(1, Q1):
+
+        Ybq = jl.bquant(Yb, q)
+        Ybr = jl.brec(Ybq, q)
+        yr = jl.ibdct(Ybr, (8, 8), (512, 768))
+        psnr_num = psnr(meanSquareError(yr, img))
+        if psnr_num < 40 and psnr_num > 38 and not set_good:
+            set_good = True
+            good_Q1 = q
+            yg = yr
+        elif psnr_num < 35 and psnr_num > 33 and not set_hg:
+            set_hg = True
+            hg_Q1 = q
+            yhg = yr
+
+    plt.figure(1)
+    plt.subplot(131), plt.imshow(img, 'gray', clim=(0, 255))
+    plt.subplot(132), plt.imshow(yg, 'gray', clim=(0, 255))
+    plt.subplot(133), plt.imshow(yhg, 'gray', clim=(0, 255))
+
+    print("psnr for good: " + str(psnr(meanSquareError(yg, img))))
+    print("Q1 for good: " + str(good_Q1))
+    print("psnr for halfgood: " + str(psnr(meanSquareError(yhg, img))))
+    print("Q1 for halfgood: " + str(hg_Q1))
+
+    plt.show()
+
+#frag15(y)
+#frag15(y2)
+#frag15(y3)
+#frag15(y4)
 
 
 
