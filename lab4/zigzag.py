@@ -51,7 +51,16 @@ def zigzag(matrix):
                 move = right
         result.append(matrix[pos[1]][pos[0]])
     print("Result:\n" + str(result))
+
 M=4
 N=3
 A=np.arange(M*N).reshape(N,M)
 zigzag(A)
+
+### FRAGA 21
+#SVAR
+# Zigzag scanning helps with dimension reduction whilst also having items that
+# are close in the matrix, and thus probably more related, still stay close to each other.
+# This helps facilitate entropy encoding such as Huffman for further, lossless, compression.
+#
+# Explicit execution of the fucntion? As in where it starts? In that case for us it is easiest to just rotate the matrix first..
