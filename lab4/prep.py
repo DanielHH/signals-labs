@@ -479,11 +479,22 @@ def frag20(img):
 #frag20(y5)
 #frag20(y6)
 
-#FRAGA20
+###FRAGA20
 #SVAR
 # How much more you can quantize with Q2 and JPEG matrix than Q1 depends on the image.
 # Q1 (uniform quantization) regards all components equally while JPEG takes into consideration
 # which frequency the components have in the image. Images with a lot of
 # high frequency components will se a much larger difference
 # between the Q1 and Q2 quantization steps than images that are more uniform in this regard.
+
+
+
+
+
+
+
+
+
+
+
 
