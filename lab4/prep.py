@@ -313,7 +313,6 @@ def frag15(img):
     set_good = False
     set_hg = False
     for q in range(1, Q1):
-
         Ybq = jl.bquant(Yb, q)
         Ybr = jl.brec(Ybq, q)
         yr = jl.ibdct(Ybr, (8, 8), (512, 768))
@@ -345,7 +344,8 @@ def frag15(img):
 #frag15(y2)
 #frag15(y3)
 #frag15(y4)
-
+#frag15(y5)
+#frag15(y6)
 
 ### FRAGA16
 # SVAR
@@ -390,7 +390,7 @@ def frag19(img):
         Ybr = jl.brec(Ybq, jl.jpgqmtx() * q)
         yr = jl.ibdct(Ybr, (8, 8), (512, 768))
         psnr_num = psnr(meanSquareError(yr, img))
-        print(psnr_num)
+        #print(psnr_num)
         if psnr_num < 40 and psnr_num > 38 and not set_good:
             set_good = True
             good_Q2 = q
@@ -418,5 +418,72 @@ def frag19(img):
 #frag19(y2)
 #frag19(y3)
 #frag19(y4)
+#frag19(y5)
+#frag19(y6)
 
+def frag20(img):
+
+    Yb = jl.bdct(img, (8, 8))
+    Q1 = 100
+    good_Q1 = None
+    ygq1 = None
+    set_good = False
+    for q in range(1, Q1):
+        Ybq = jl.bquant(Yb, q)
+        Ybr = jl.brec(Ybq, q)
+        yr = jl.ibdct(Ybr, (8, 8), (512, 768))
+        psnr_num = psnr(meanSquareError(yr, img))
+        if psnr_num < 40 and psnr_num > 38 and not set_good:
+            set_good = True
+            good_Q1 = q
+            ygq1 = yr
+            break
+
+    Yb = jl.bdct(img, (8, 8))
+    Q2 = 100
+    good_Q2 = None
+    ygq2 = None
+    set_good = False
+    for q in range(1, Q2):
+        q = float(q)/10
+        Ybq = jl.bquant(Yb, jl.jpgqmtx() * q)
+        Ybr = jl.brec(Ybq, jl.jpgqmtx() * q)
+        yr = jl.ibdct(Ybr, (8, 8), (512, 768))
+        psnr_num = psnr(meanSquareError(yr, img))
+        #print(psnr_num)
+        if psnr_num < 40 and psnr_num > 38 and not set_good:
+            set_good = True
+            good_Q2 = q
+            ygq2 = yr
+            break
+
+    plt.figure(1)
+    plt.subplot(131), plt.imshow(img, 'gray', clim=(0, 255))
+    plt.subplot(132), plt.imshow(ygq2, 'gray', clim=(0, 255))
+    plt.subplot(133), plt.imshow(ygq1, 'gray', clim=(0, 255))
+
+    print("Q2 psnr for good: " + str(psnr(meanSquareError(ygq2, img))))
+    print("JPEGMEAN*Q2 for good: " + str(np.mean(jl.jpgqmtx())*good_Q2))
+
+    print("Q1 psnr for good: " + str(psnr(meanSquareError(ygq1, img))))
+    print("Q1 for good: " + str(good_Q1))
+    print("Factor: " + str(np.mean(jl.jpgqmtx()) * good_Q2 / good_Q1))
+
+
+    plt.show()
+
+#frag20(y)
+#frag20(y2)
+#frag20(y3)
+#frag20(y4)
+#frag20(y5)
+#frag20(y6)
+
+#FRAGA20
+#SVAR
+# How much more you can quantize with Q2 and JPEG matrix than Q1 depends on the image.
+# Q1 (uniform quantization) regards all components equally while JPEG takes into consideration
+# which frequency the components have in the image. Images with a lot of
+# high frequency components will se a much larger difference
+# between the Q1 and Q2 quantization steps than images that are more uniform in this regard.
 
